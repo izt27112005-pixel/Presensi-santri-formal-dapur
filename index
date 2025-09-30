@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Presensi Harian Kegiatan Santri Sekolah Khodim Dapur PPSQ Asy-Syadzily 1</title>
+<style>
+  /* --- Palet islami, elegan, animasi --- */
+  :root{
+    --bg:#0b2b1d; /* deep green */
+    --card:#072014;
+    --accent:#8bd07a; /* light green */
+    --gold:#caa44a;
+    --muted:#bfcfc3;
+    --glass: rgba(255,255,255,0.04);
+    --shadow: 0 6px 18px rgba(2,8,4,0.6);
+    --glass-2: rgba(255,255,255,0.02);
+  }
+  *{box-sizing:border-box;font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#05120d 70%);color:var(--muted)}
+  .container{max-width:1100px;margin:28px auto;padding:22px;background:linear-gradient(180deg,var(--card),rgba(0,0,0,0.2));border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.03)}
+  header{display:flex;align-items:center;gap:16px}
+  .logo {width:68px;height:68px;border-radius:12px;background: linear-gradient(135deg,var(--accent),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.5);transform:rotate(-6deg);animation:wobble 6s ease-in-out infinite;}
+  @keyframes wobble{0%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}100%{transform:rotate(-6deg)}}
+  h1{font-size:18px;margin:0;color: #eaf8e6;letter-spacing:0.3px}
+  p.lead{margin:6px 0 0;color: #bfe6c5;font-size:13px}
+  .controls{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:9px;color:var(--muted);cursor:pointer;backdrop-filter: blur(4px);transition: all .18s ease;}
+  .btn:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.6)}
+  .btn.primary{background:linear-gradient(90deg,var(--accent),#6dbb58);color:#05210f;border:none;font-weight:600;}
+  .btn.warn{background:linear-gradient(90deg,var(--gold),#b6872f);color:#081505;border:none;font-weight:600}
+  .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+  .left{flex:1}
+  .right{display:flex;gap:10px;align-items:center}
+  .card{background:var(--glass-2);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:8px;overflow:hidden}
+  th,td{text-align:center;padding:10px 8px;font-size:13px;border-bottom:1px dotted rgba(255,255,255,0.03)}
+  thead th{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));font-weight:600;color:#e9f9ea;position:sticky;top:0}
+  tbody tr:hover td{background:linear-gradient(90deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06));}
+  .name-cell{text-align:left;padding-left:14px;display:flex;align-items:center;gap:10px}
+  .avatar{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--accent));display:flex;align-items:center;justify-content:center;color:#05210f;font-weight:700;box-shadow:0 6px 14px rgba(0,0,0,0.45);}
+  /* kriteria colors */
+  .k-hadir{background:#1fbf4a;color:#05210f;padding:6px 8px;border-radius:8px;font-weight:700;border:2px solid rgba(255,255,255,0.06)}
+  .k-absen{background:#e3504b;color:white;padding:6px 8px;border-radius:8px;font-weight:700}
+  .k-sakit{background:#f39c3e;color:#2c1400;padding:6px 8px;border-radius:8px;font-weight:700}
+  .k-izin{background:#37a6f0;color:white;padding:6px 8px;border-radius:8px;font-weight:700}
+  .k-none{background:transparent;color:var(--muted);padding:6px;border-radius:6px}
+  /* small controls */
+  .icon-btn{border-radius:8px;padding:6px 8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+  .muted{color:#9fb9a5;font-size:13px}
+  .admin-badge{padding:6px 8px;border-radius:8px;background:linear-gradient(90deg,#102f19,#063114);color:var(--accent);font-weight:600;border:1px solid rgba(255,255,255,0.03)}
+  .small{font-size:13px}
+  .form-row{display:flex;gap:8px;align-items:center}
+  input[type="date"], input[type="text"], input[type="password"]{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px}
+  input[type="text"]::placeholder{color:rgba(190,230,194,0.6)}
+  .modal{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(2,6,2,0.66);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter: blur(3px)}
+  .modal-card{width:480px;max-width:95%;background:linear-gradient(180deg,#071810,#092116);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px}
+  .flex-between{display:flex;justify-content:space-between;align-items:center}
+  .footer{margin-top:18px;padding-top:12px;border-top:1px dashed rgba(255,255,255,0.03);display:flex;justify-content:space-between;align-items:center;color:#cfe9cf}
+  .hint{font-size:12px;color:#9fb9a5}
+  /* responsiveness */
+  @media (max-width:820px){
+    .top-row{flex-direction:column;align-items:stretch}
+    .controls{justify-content:flex-start}
+    table,thead,tbody,th,td,tr{font-size:12px}
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">P</div>
+      <div>
+        <h1>Presensi Harian Kegiatan Santri Sekolah Khodim Dapur PPSQ Asy-Syadzily 1</h1>
+        <p class="lead">Data harian — Shalat jamaah 5 waktu, Sekolah, Deresan Maghrib, Madin. Pilih tanggal untuk melihat/ubah presensi.</p>
+      </div>
+    </header>
+
+    <div class="top-row" style="margin-top:12px">
+      <div class="left card">
+        <div class="controls">
+          <div class="form-row">
+            <label class="small" style="margin-right:8px">Pilih Tanggal</label>
+            <input id="datePicker" type="date"/>
+            <button id="todayBtn" class="btn">Hari Ini</button>
+          </div>
+          <div style="width:8px"></div>
+          <div class="form-row">
+            <button id="adminModeBtn" class="btn primary">Masuk Mode Admin</button>
+            <button id="viewerModeBtn" class="btn">Mode Viewer</button>
+          </div>
+          <div style="flex:1"></div>
+          <div class="muted small">Kriteria: <span class="k-hadir" style="margin-left:8px">Hadir</span> <span class="k-absen" style="margin-left:8px">Absen</span> <span class="k-sakit" style="margin-left:8px">Sakit</span> <span class="k-izin" style="margin-left:8px">Izin</span></div>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="card" style="padding:8px 12px">
+          <div class="small muted">Mode:</div>
+          <div id="modeIndicator" class="admin-badge">Viewer</div>
+        </div>
+        <div class="card" style="padding:8px 12px;text-align:right">
+          <div class="small muted">Aktivitas:</div>
+          <div style="font-weight:700;color:#dff6e2;margin-top:6px">Shalat 5x · Sekolah · Deresan Maghrib · Madin</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div id="tableArea" class="card" style="margin-top:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="small muted">Tabel Presensi</div>
+        <div class="small muted">Tanggal terpilih: <span id="dateLabel"></span></div>
+      </div>
+
+      <table id="presensiTable" style="margin-top:12px">
+        <thead>
+          <tr>
+            <th style="min-width:220px">Nama Santri</th>
+            <th>Shubuh</th>
+            <th>Dzuhur</th>
+            <th>Ashr</th>
+            <th>Maghrib</th>
+            <th>Isya</th>
+            <th>Sekolah</th>
+            <th>Deresan Maghrib</th>
+            <th>Madin</th>
+            <th>Ringkasan Minggu</th>
+            <th style="min-width:110px">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- rows generated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Admin controls -->
+    <div id="adminPanel" class="card" style="margin-top:14px;display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <strong style="color:var(--accent)">Panel Admin</strong>
+          <div class="muted small">Tambah, edit, hapus anggota; ubah PIN; edit presensi.</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="addMemberBtn" class="btn primary">Tambah Anggota</button>
+          <button id="changePinBtn" class="btn warn">Ganti PIN</button>
+          <button id="logoutBtn" class="btn">Keluar Admin</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="muted small">Sistem presensi — data disimpan di Firebase Firestore (realtime).</div>
+      <div style="font-weight:700">mengetahui: Miroabadi</div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="modalRoot"></div>
+
+<script type="module">
+/*
+  Versi Firestore dari Presensi Harian.
+  - Koleksi 'members' : dokumen per anggota dengan field { name: string }
+  - Koleksi 'records' : dokumen per tanggal (id = YYYY-MM-DD) dengan data { memberId: { actKey: 'hadir'|'absen'|'sakit'|'izin' } }
+  - Dokumen 'settings/admin' : { pinHash: <sha256 hex> }
+  - Realtime listeners (onSnapshot) untuk members & records
+*/
+
+  // Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+  import {
+    getFirestore,
+    collection,
+    doc,
+    setDoc,
+    getDoc,
+    getDocs,
+    onSnapshot,
+    deleteDoc
+  } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+  // Your Firebase config (kept dari user)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCX-M-eNScPTqmtIOp7Zs1fFwkIg27VkF0",
+    authDomain: "data-jamaah-dapur.firebaseapp.com",
+    projectId: "data-jamaah-dapur",
+    storageBucket: "data-jamaah-dapur.firebasestorage.app",
+    messagingSenderId: "963461575071",
+    appId: "1:963461575071:web:50b90ded63ef9fd5178daa",
+    measurementId: "G-EV10TBZKY8"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  try { const analytics = getAnalytics(app); } catch(e){ /* ignore if not available */ }
+  const db = getFirestore(app);
+
+  // --- App constants & helpers (same semantics as sebelumnya) ---
+  const ACTS = ['shubuh','dzuhur','ashr','maghrib','isya','sekolah','deresan_maghrib','madin'];
+  const KRITERIA = ['hadir','absen','sakit','izin','none'];
+  const KR_COLORS = {
+    hadir: 'k-hadir',
+    absen: 'k-absen',
+    sakit: 'k-sakit',
+    izin: 'k-izin',
+    none: 'k-none'
+  };
+
+  // Global caches (ke Firestore)
+  let MEMBERS = [];   // array of {id,name}
+  let RECORDS = {};   // map dateIso -> { memberId: {act: 'hadir', ...}, ... }
+  let PIN_HASH = null; // admin PIN hash from Firestore
+
+  // Helper: format date to YYYY-MM-DD
+  function toISO(date){
+    const d = new Date(date);
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${dd}`;
+  }
+  function isoToDisplay(iso){
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('id-ID', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+  }
+
+  // Web Crypto SHA-256 -> hex
+  async function hashPin(pin){
+    const enc = new TextEncoder();
+    const data = enc.encode(pin);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+
+  // small utilities
+  function generateId(){ return 'id'+Math.random().toString(36).slice(2,9); }
+  function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+  function escapeHtml(txt){ return String(txt).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+
+  // --- Firestore initialization & realtime listeners ---
+  async function initFirestore(){
+    // ensure settings/admin PIN exists (default to 'w22' hash if not)
+    const adminRef = doc(db, 'settings', 'admin');
+    const adminSnap = await getDoc(adminRef);
+    if(!adminSnap.exists()){
+      const defaultHash = await hashPin('w22'); // default PIN initialization
+      await setDoc(adminRef, { pinHash: defaultHash });
+      PIN_HASH = defaultHash;
+    } else {
+      PIN_HASH = adminSnap.data().pinHash;
+    }
+
+    // realtime members listener
+    const membersCol = collection(db, 'members');
+    let membersFirst = true;
+    onSnapshot(membersCol, async snapshot => {
+      MEMBERS = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      // If first run and empty, create sample members
+      if(membersFirst){
+        membersFirst = false;
+        if(MEMBERS.length === 0){
+          const sample = ['Ahmad','Budi','Cahya'];
+          for(const name of sample){
+            const id = generateId();
+            await setDoc(doc(db,'members', id), { name });
+          }
+          // after creation, snapshot will re-fire
+          return;
+        }
+      }
+      renderTable();
+    });
+
+    // realtime records listener: watch whole collection 'records'
+    const recordsCol = collection(db, 'records');
+    onSnapshot(recordsCol, snapshot => {
+      RECORDS = {};
+      snapshot.docs.forEach(d=>{
+        // the doc id is dateIso
+        RECORDS[d.id] = d.data() || {};
+      });
+      renderTable();
+    });
+
+    // set default date picker value (today)
+    const dp = document.getElementById('datePicker');
+    const today = toISO(new Date());
+    dp.value = today;
+    document.getElementById('dateLabel').innerText = isoToDisplay(today);
+  }
+
+  // --- UI wiring (mode buttons, date picker, admin panel actions) ---
+  let isAdmin = false;
+  const modeIndicator = document.getElementById('modeIndicator');
+  document.getElementById('adminModeBtn').addEventListener('click', openAdminLogin);
+  document.getElementById('viewerModeBtn').addEventListener('click', ()=>{ setMode(false); });
+  document.getElementById('logoutBtn').addEventListener('click', ()=>{ setMode(false); alert('Anda telah keluar dari mode admin.'); });
+
+  // date picker change
+  document.getElementById('datePicker').addEventListener('change', (e)=>{
+    const iso = e.target.value;
+    document.getElementById('dateLabel').innerText = isoToDisplay(iso);
+    renderTable();
+  });
+  document.getElementById('todayBtn').addEventListener('click', ()=>{
+    const today = toISO(new Date());
+    document.getElementById('datePicker').value = today;
+    document.getElementById('dateLabel').innerText = isoToDisplay(today);
+    renderTable();
+  });
+
+  // admin panel buttons
+  document.getElementById('addMemberBtn').addEventListener('click', ()=>{ openMemberModal(); });
+  document.getElementById('changePinBtn').addEventListener('click', ()=>{ openChangePinModal(); });
+
+  function setMode(admin){
+    isAdmin = admin;
+    modeIndicator.innerText = admin ? 'Admin' : 'Viewer';
+    document.getElementById('adminPanel').style.display = admin ? 'block':'none';
+    renderTable();
+  }
+
+  // --- Admin Login Modal ---
+  function openAdminLogin(){
+    openModal(`
+      <h3 style="margin-top:0;color:var(--accent)">Masuk Admin</h3>
+      <div style="margin-top:8px">
+        <label>Masukkan PIN</label>
+        <input id="pinInput" type="password" placeholder="Masukkan PIN" />
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px;justify-content:flex-end">
+        <button id="cancelLogin" class="btn">Batal</button>
+        <button id="okLogin" class="btn primary">Masuk</button>
+      </div>
+    `);
+
+    document.getElementById('cancelLogin').addEventListener('click', closeModal);
+    document.getElementById('okLogin').addEventListener('click', async ()=>{
+      const pin = document.getElementById('pinInput').value.trim();
+      if(!pin){ alert('Masukkan PIN.'); return; }
+      const hash = await hashPin(pin);
+      // ensure latest PIN_HASH from firestore
+      const adminRef = doc(db,'settings','admin');
+      const adminSnap = await getDoc(adminRef);
+      if(adminSnap.exists()) PIN_HASH = adminSnap.data().pinHash;
+      if(hash === PIN_HASH){
+        setMode(true);
+        closeModal();
+        alert('Berhasil masuk mode admin.');
+      } else {
+        alert('PIN salah.');
+      }
+    });
+  }
+
+  // --- Member modal (add / edit) ---
+  function openMemberModal(member){
+    const isEdit = !!member;
+    openModal(`
+      <h3 style="margin-top:0;color:var(--accent)">${isEdit ? 'Edit' : 'Tambah'} Anggota</h3>
+      <div style="margin-top:8px">
+        <label>Nama anggota</label>
+        <input id="memberName" type="text" placeholder="Nama lengkap" value="${isEdit ? escapeHtml(member.name) : ''}" />
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px;justify-content:flex-end">
+        <button id="cancelMember" class="btn">Batal</button>
+        <button id="okMember" class="btn primary">${isEdit ? 'Simpan' : 'Tambah'}</button>
+      </div>
+    `);
+    document.getElementById('cancelMember').addEventListener('click', closeModal);
+    document.getElementById('okMember').addEventListener('click', async ()=>{
+      const name = document.getElementById('memberName').value.trim();
+      if(!name){ alert('Nama tidak boleh kosong'); return;}
+      if(isEdit){
+        // update existing doc
+        await setDoc(doc(db,'members', member.id), { name });
+      } else {
+        const id = generateId();
+        await setDoc(doc(db,'members', id), { name });
+      }
+      closeModal();
+      // render will happen from onSnapshot
+    });
+  }
+
+  // --- Change PIN modal ---
+  function openChangePinModal(){
+    openModal(`
+      <h3 style="margin-top:0;color:var(--gold)">Ganti PIN Admin</h3>
+      <div style="margin-top:8px">
+        <label>PIN saat ini</label>
+        <input id="cp_current" type="password" placeholder="PIN saat ini" />
+      </div>
+      <div style="margin-top:8px">
+        <label>PIN baru</label>
+        <input id="cp_new" type="password" placeholder="PIN baru" />
+      </div>
+      <div style="margin-top:8px">
+        <label>Ulangi PIN baru</label>
+        <input id="cp_new2" type="password" placeholder="Ulangi PIN baru" />
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px;justify-content:flex-end">
+        <button id="cp_cancel" class="btn">Batal</button>
+        <button id="cp_ok" class="btn warn">Ganti PIN</button>
+      </div>
+    `);
+    document.getElementById('cp_cancel').addEventListener('click', closeModal);
+    document.getElementById('cp_ok').addEventListener('click', async ()=>{
+      const cur = document.getElementById('cp_current').value;
+      const n1 = document.getElementById('cp_new').value;
+      const n2 = document.getElementById('cp_new2').value;
+      if(!cur||!n1||!n2){ alert('Isi semua field'); return; }
+      if(n1 !== n2){ alert('Ulangan PIN tidak cocok'); return; }
+      const curHash = await hashPin(cur);
+      const adminRef = doc(db,'settings','admin');
+      const adminSnap = await getDoc(adminRef);
+      if(!adminSnap.exists()){ alert('Pengaturan admin belum tersedia.'); return; }
+      if(curHash !== adminSnap.data().pinHash){ alert('PIN saat ini salah'); return; }
+      const newHash = await hashPin(n1);
+      await setDoc(adminRef, { pinHash: newHash });
+      PIN_HASH = newHash;
+      closeModal();
+      alert('PIN berhasil diganti.');
+    });
+  }
+
+  // --- Modal helpers ---
+  function openModal(htmlContent){
+    const root = document.getElementById('modalRoot');
+    root.innerHTML = `<div class="modal"><div class="modal-card">${htmlContent}</div></div>`;
+  }
+  function closeModal(){ document.getElementById('modalRoot').innerHTML = ''; }
+
+  // --- Render table (uses MEMBERS and RECORDS caches) ---
+  function renderTable(){
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    const members = MEMBERS || [];
+    const records = RECORDS || {};
+    const selected = document.getElementById('datePicker').value;
+    // for each member row
+    members.forEach(member=>{
+      const tr = document.createElement('tr');
+      // name cell
+      const tdName = document.createElement('td');
+      tdName.className = 'name-cell';
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.innerText = member.name.split(' ').map(s=>s[0]?.toUpperCase()||'').slice(0,2).join('');
+      tdName.appendChild(avatar);
+      const nm = document.createElement('div');
+      nm.innerHTML = `<div style="font-weight:700;color:#eaf8e6">${escapeHtml(member.name)}</div><div class="small muted">ID: ${member.id}</div>`;
+      tdName.appendChild(nm);
+      tr.appendChild(tdName);
+
+      // for each activity column
+      const recOfDay = records[selected] || {};
+      const rowRec = recOfDay[member.id] || {};
+      ACTS.forEach(act=>{
+        const td = document.createElement('td');
+        const val = rowRec[act] || 'none';
+        const span = document.createElement('div');
+        span.className = KR_COLORS[val] || 'k-none';
+        span.innerText = val === 'none' ? '-' : capitalize(val);
+        // if admin, make clickable dropdown
+        if(isAdmin){
+          span.style.cursor = 'pointer';
+          span.title = 'Klik untuk ubah';
+          span.addEventListener('click', (e)=>{
+            openKriteriaPicker(member.id, selected, act, span);
+          });
+        }
+        td.appendChild(span);
+        tr.appendChild(td);
+      });
+
+      // ringkasan minggu
+      const tdSum = document.createElement('td');
+      const weekSummary = calcWeeklySummary(member.id, selected);
+      const summaryHtml = KRITERIA.filter(k=>k!=='none').map(k=>{
+        return `<span class="${KR_COLORS[k]}" style="margin:4px;display:inline-block">${capitalize(k)}: ${weekSummary[k]||0}</span>`;
+      }).join('');
+      tdSum.innerHTML = summaryHtml;
+      tr.appendChild(tdSum);
+
+      // aksi
+      const tdAct = document.createElement('td');
+      if(isAdmin){
+        const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.innerText='Edit'; editBtn.addEventListener('click', ()=>openMemberModal(member));
+        const delBtn = document.createElement('button'); delBtn.className='icon-btn'; delBtn.innerText='Hapus'; delBtn.addEventListener('click', ()=>{ if(confirm('Hapus anggota ini?')){ deleteMember(member.id); }});
+        tdAct.appendChild(editBtn);
+        tdAct.appendChild(document.createTextNode(' '));
+        tdAct.appendChild(delBtn);
+      } else {
+        tdAct.innerHTML = '<div class="small muted">Viewer</div>';
+      }
+      tr.appendChild(tdAct);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  // open small picker to choose kriteria
+  function openKriteriaPicker(memberId, dateIso, act, anchorEl){
+    const picker = document.createElement('div');
+    picker.style.position='absolute';
+    picker.style.zIndex=99999;
+    picker.style.background='linear-gradient(180deg,#071810,#092116)';
+    picker.style.padding='8px';
+    picker.style.borderRadius='10px';
+    picker.style.border='1px solid rgba(255,255,255,0.03)';
+    picker.style.boxShadow='0 8px 28px rgba(0,0,0,0.6)';
+    KRITERIA.forEach(k=>{
+      const btn = document.createElement('div');
+      btn.className = 'btn';
+      btn.style.display='inline-block';
+      btn.style.margin='4px';
+      btn.innerHTML = `<span class="${KR_COLORS[k]}">${k==='none' ? 'Kosong' : capitalize(k)}</span>`;
+      btn.addEventListener('click', async ()=>{
+        await setKriteriaFor(memberId, dateIso, act, k);
+        if(document.body.contains(picker)) document.body.removeChild(picker);
+      });
+      picker.appendChild(btn);
+    });
+    // positioning near anchorEl
+    const rect = anchorEl.getBoundingClientRect();
+    picker.style.left = (rect.left + window.scrollX) + 'px';
+    picker.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+    document.body.appendChild(picker);
+    // close on outside click
+    setTimeout(()=>{ window.addEventListener('click', onDocClick); }, 10);
+    function onDocClick(evt){
+      if(!picker.contains(evt.target) && evt.target !== anchorEl){ 
+        if(document.body.contains(picker)) document.body.removeChild(picker);
+        window.removeEventListener('click', onDocClick);
+      }
+    }
+  }
+
+  // Write kriteria to Firestore for a given date/member/act
+  async function setKriteriaFor(memberId, dateIso, act, k){
+    try {
+      const recRef = doc(db,'records', dateIso);
+      const recSnap = await getDoc(recRef);
+      const data = recSnap.exists() ? recSnap.data() : {};
+      const memberObj = data[memberId] ? {...data[memberId]} : {};
+      if(k === 'none'){
+        delete memberObj[act];
+        // if no more keys in memberObj, remove member entry
+        if(Object.keys(memberObj).length === 0){
+          delete data[memberId];
+        } else {
+          data[memberId] = memberObj;
+        }
+      } else {
+        memberObj[act] = k;
+        data[memberId] = memberObj;
+      }
+      await setDoc(recRef, data);
+      // onSnapshot will update RECORDS and re-render
+    } catch(err){
+      console.error('Gagal menyimpan kriteria:', err);
+      alert('Terjadi kesalahan saat menyimpan. Periksa koneksi dan rules Firestore.');
+    }
+  }
+
+  // delete member and optionally their records
+  async function deleteMember(memberId){
+    try {
+      // delete member doc
+      await deleteDoc(doc(db,'members', memberId));
+      // remove from all records
+      const recsSnap = await getDocs(collection(db,'records'));
+      for(const d of recsSnap.docs){
+        const data = d.data() || {};
+        if(data[memberId]){
+          delete data[memberId];
+          // overwrite doc with cleaned data
+          await setDoc(doc(db,'records', d.id), data);
+        }
+      }
+      // onSnapshot will refresh UI
+    } catch(err){
+      console.error('Gagal menghapus anggota:', err);
+      alert('Terjadi kesalahan saat menghapus anggota.');
+    }
+  }
+
+  // weekly summary for a member based on selected date (uses RECORDS cache)
+  function calcWeeklySummary(memberId, isoDate){
+    const d = new Date(isoDate + 'T00:00:00');
+    const day = d.getDay(); // 0 Sun .. 6 Sat
+    const diffToMon = day === 0 ? -6 : 1 - day; // Monday start
+    const mon = new Date(d);
+    mon.setDate(d.getDate() + diffToMon);
+    const summary = {hadir:0,absen:0,sakit:0,izin:0};
+    for(let i=0;i<7;i++){
+      const cur = new Date(mon);
+      cur.setDate(mon.getDate()+i);
+      const iso = toISO(cur);
+      const dayRec = RECORDS[iso] && RECORDS[iso][memberId];
+      if(!dayRec) continue;
+      ACTS.forEach(a=>{
+        const v = dayRec[a];
+        if(v && summary[v] !== undefined) summary[v] += 1;
+      });
+    }
+    return summary;
+  }
+
+  // initial render will be triggered by listeners; still call to set up UI defaults
+  await initFirestore();
+  renderTable();
+
+  /* Optional: keyboard shortcuts for admin quick actions (only in admin mode) */
+  document.addEventListener('keydown', (e)=>{
+    if(e.ctrlKey && e.key.toLowerCase()==='a' && isAdmin){
+      e.preventDefault();
+      openMemberModal();
+    }
+  });
+
+  /* END OF SCRIPT */
+</script>
+</body>
+</html>
